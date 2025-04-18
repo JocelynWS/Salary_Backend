@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Net Salary Calculator</title>
+  <style>
+    :root {
+      --main-color: #3498db;
+      --background: #f4f6f8;
+      --text-color: #2c3e50;
+      --card-bg: #ffffff;
+      --border-radius: 10px;
+      --shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: var(--background);
+      color: var(--text-color);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background: var(--main-color);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ecf0f1;
+      font-weight: bold;
+    }
+
+    .result-box p {
+      margin: 5px 0;
+    }
+
+    .result-box h3 {
+      margin-top: 15px;
+      color: var(--main-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💼 Net Salary Calculator</h1>
+
+    <div class="card">
+      <form id="salaryForm">
+        <label for="gross">Gross Salary (VNĐ):</label>
+        <input type="number" id="gross" name="gross" placeholder="Ví dụ: 70000000" required>
+
+        <label for="dependents">Number of Dependents:</label>
+        <input type="number" id="dependents" name="dependents" value="0" min="0">
+
+        <button type="submit">🔍 Calculate</button>
+      </form>
+
+      <div class="result-box" id="salaryResult"></div>
+    </div>
+
+    <div class="card">
+      <h2>📄 Upload Excel File</h2>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="excelFile" name="file" accept=".xlsx" required>
+        <button type="submit">📤 Upload</button>
+      </form>
+
+      <div id="uploadResult"></div>
+    </div>
+  </div>
+
+  <script>
+    // GET API - tính lương NET
+    document.getElementById("salaryForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const gross = document.getElementById("gross").value;
+      const dependents = document.getElementById("dependents").value;
+
+      const response = await fetch(`/?gross=${gross}&dependents=${dependents}`);
+      const data = await response.json();
+
+      document.getElementById("salaryResult").innerHTML = `
+        <h3>Result:</h3>
+        <p><strong>Gross Salary:</strong> ${Number(data.gross_salary).toLocaleString()} VNĐ</p>
+        <p><strong>Dependents:</strong> ${data.dependents}</p>
+        <p><strong>Net Salary:</strong> <b style="color:green">${Number(data.net_salary).toLocaleString()} VNĐ</b></p>
+      `;
+    });
+
+    // POST API - upload Excel
+    document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("file", document.getElementById("excelFile").files[0]);
+
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      const results = data.salaries;
+
+      const table = document.createElement("table");
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Gross Salary</th>
+            <th>Dependents</th>
+            <th>Net Salary</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${results.map(row => `
+            <tr>
+              <td>${row.name}</td>
+              <td>${Number(row.gross).toLocaleString()}</td>
+              <td>${row.dependents}</td>
+              <td><b>${Number(row.net).toLocaleString()}</b></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+
+      const resultDiv = document.getElementById("uploadResult");
+      resultDiv.innerHTML = "";
+      resultDiv.appendChild(table);
+    });
+  </script>
+
+</body>
+</html>
