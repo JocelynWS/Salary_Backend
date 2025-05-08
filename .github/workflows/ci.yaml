@@ -20,7 +20,7 @@ jobs:
           go-version: '1.23' # Điều chỉnh phiên bản Go nếu cần
 
       - name: Get dependencies
-        run: go mod download -d all
+        run: go mod download
 
       - name: Run tests
         run: go test -v ./...
