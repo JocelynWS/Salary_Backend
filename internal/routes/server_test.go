@@ -121,7 +121,7 @@ func TestUploadEndpoint(t *testing.T) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	filePath := "/home/jocelyn/salary_api_ver1/test/testdata.xlsx"
+	filePath := "./test/testdata.xlsx"
 	fileWriter, _ := writer.CreateFormFile("file", filepath.Base(filePath))
 	file, err := os.Open(filePath)
 	if err != nil {
