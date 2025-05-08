@@ -14,9 +14,7 @@ This application provides a simple API to convert Gross salary to Net salary bas
 
 1.  **Clone the repository (if you have one):**
     ```bash
-    git clone [https://github.com/JocelynWS/NetEase](https://github.com/JocelynWS/NetEase)
-    cd salary-api
-    ```
+    git clone https://github.com/JocelynWS/Salary_Backend
 
 2.  **Download dependencies:**
     ```bash
