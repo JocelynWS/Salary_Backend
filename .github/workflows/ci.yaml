@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23' # Điều chỉnh phiên bản Go nếu cần
+
+      - name: Get dependencies
+        run: go mod download -d all
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Build application
+        run: go build -o salary_api ./cmd/main.go
+
+      # Bước tùy chọn: Build và Push Docker image lên Docker Hub
+      - name: Build and Push Docker Image (Optional)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          repository: ${{ secrets.DOCKER_USERNAME }}/salary-api
+          tags: ${{ github.sha }}, latest
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

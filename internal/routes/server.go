@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"salary-api/internal/control"
+	"salary_api_ver1/internal/control"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xuri/excelize/v2"
@@ -12,7 +12,7 @@ import (
 
 func InitServer() {
 	r := gin.Default()
-	r.StaticFile("/frontend", "../static/index.html")
+	//r.StaticFile("/frontend", "../static/index.html")
 
 	// API GET
 	r.GET("/", func(c *gin.Context) {
