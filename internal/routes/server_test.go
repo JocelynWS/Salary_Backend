@@ -93,4 +93,3 @@ func TestUploadAPI(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 	assert.Contains(t, w.Body.String(), `"file received"`)
 }
-
