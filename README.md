@@ -15,8 +15,6 @@ This application provides a simple API to convert Gross salary to Net salary bas
 1.  **Clone the repository (if you have one):**
     ```bash
     git clone https://github.com/JocelynWS/Salary_Backend
-    cd salary-api
-    ```
 
 2.  **Download dependencies:**
     ```bash
@@ -29,9 +27,6 @@ This application provides a simple API to convert Gross salary to Net salary bas
     go run cmd/main.go
     ```
     The server will start and listen on port `http://localhost:8081`.
-
-4.  **Open the user interface (frontend):**
-    Open your web browser and navigate to `http://localhost:8081/frontend`.
 
 ## API Usage
 
