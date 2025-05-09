@@ -28,9 +28,6 @@ This application provides a simple API to convert Gross salary to Net salary bas
     ```
     The server will start and listen on port `http://localhost:8081`.
 
-4.  **Open the user interface (frontend):**
-    Open your web browser and navigate to `http://localhost:8081/frontend`.
-
 ## API Usage
 
 ### 1. Calculate Net Salary (GET API)
