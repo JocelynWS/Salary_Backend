@@ -15,33 +15,32 @@ func InitServer() {
 	//r.StaticFile("/frontend", "../static/index.html")
 
 	// API GET
+	// Load giao diện HTML từ file
+	r.LoadHTMLFiles("/home/jocelyn/salary_api_ver1/frontend/index.html")
+	r.Static("/static", "./frontend") // Nếu sau này có thêm file CSS/JS
+
+	// Giao diện người dùng
 	r.GET("/", func(c *gin.Context) {
-		grossStr := c.Query("gross")
-		dependentStr := c.Query("dependents")
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 
-		if grossStr == "" {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Welcome! Please provide ?gross=amount&dependents=n to calculate net salary.",
-			})
+	// POST /calculate: Tính lương từ form tay
+	r.POST("/calculate", func(c *gin.Context) {
+		var req struct {
+			GrossSalary float64 `json:"gross"`
+			Dependents  int     `json:"dependents"`
+		}
+
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "detail": err.Error()})
 			return
 		}
 
-		gross, err := strconv.ParseFloat(grossStr, 64)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid gross amount"})
-			return
-		}
-
-		dependents, err := strconv.Atoi(dependentStr)
-		if err != nil || dependents < 0 {
-			dependents = 0
-		}
-
-		net := control.CalculateNetSalary(gross, dependents)
+		netSalary := control.CalculateNetSalary(req.GrossSalary, req.Dependents)
 		c.JSON(http.StatusOK, gin.H{
-			"gross_salary": gross,
-			"dependents":   dependents,
-			"net_salary":   int(net),
+			"gross":      req.GrossSalary,
+			"dependents": req.Dependents,
+			"net_salary": int(netSalary),
 		})
 	})
 

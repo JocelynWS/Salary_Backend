@@ -22,34 +22,13 @@ func setupRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	r := gin.Default()
 
+	// Load giao diện HTML từ file
+	r.LoadHTMLFiles("frontend/index.html")
+	r.Static("/static", "./frontend") // Nếu sau này có thêm file CSS/JS
+
+	// Giao diện người dùng
 	r.GET("/", func(c *gin.Context) {
-		grossStr := c.Query("gross")
-		dependentStr := c.Query("dependents")
-
-		if grossStr == "" {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Welcome! Please provide ?gross=amount&dependents=n to calculate net salary.",
-			})
-			return
-		}
-
-		gross, err := strconv.ParseFloat(grossStr, 64)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid gross amount"})
-			return
-		}
-
-		dependents, err := strconv.Atoi(dependentStr)
-		if err != nil || dependents < 0 {
-			dependents = 0
-		}
-
-		net := control.CalculateNetSalary(gross, dependents)
-		c.JSON(http.StatusOK, gin.H{
-			"gross_salary": gross,
-			"dependents":   dependents,
-			"net_salary":   int(net),
-		})
+		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
 	r.POST("/upload", func(c *gin.Context) {

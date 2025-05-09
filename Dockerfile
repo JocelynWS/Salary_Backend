@@ -1,24 +1,34 @@
-
-FROM golang:1.23-alpine AS builder
+FROM golang:1.23 AS builder
 
 WORKDIR /app
 
 COPY go.mod go.sum ./
-
-RUN go mod download 
+RUN go mod download
 
 COPY . .
 
-RUN go build -o salary_api ./cmd/main.go
+RUN go build -o salary-api ./cmd
 
-FROM alpine:latest
+# --- Runtime image ---
+FROM debian:bookworm-slim
 
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+RUN useradd -m appuser
 
-COPY --from=builder /app/salary_api .
+# ⚠️ Tạo đúng đường dẫn mà code yêu cầu
+RUN mkdir -p /home/jocelyn/salary_api_ver1/frontend
+
+WORKDIR /home/appuser
+
+# Copy binary
+COPY --from=builder /app/salary-api .
+
+# ⚠️ Copy index.html vào đúng vị trí hardcoded
+COPY --from=builder /app/frontend/index.html /home/jocelyn/salary_api_ver1/frontend/index.html
+
+USER appuser
 
 EXPOSE 8081
 
-CMD ["./salary_api"]
+ENTRYPOINT ["./salary-api"]
