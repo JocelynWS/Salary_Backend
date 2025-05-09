@@ -17,15 +17,15 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 RUN useradd -m appuser
 
 # ⚠️ Tạo đúng đường dẫn mà code yêu cầu
-RUN mkdir -p /home/jocelyn/salary_api_ver1/frontend
+RUN mkdir -p /home/jocelyn/salary_api_ver1/static
 
 WORKDIR /home/appuser
 
-# Copy binary
+
 COPY --from=builder /app/salary-api .
 
-# ⚠️ Copy index.html vào đúng vị trí hardcoded
-COPY --from=builder /app/frontend/index.html /home/jocelyn/salary_api_ver1/frontend/index.html
+
+COPY --from=builder /app/static/index.html /home/jocelyn/salary_api_ver1/static/index.html
 
 USER appuser
 

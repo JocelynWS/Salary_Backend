@@ -148,12 +148,12 @@
 
  const data = await response.json();
 
-      document.getElementById("salaryResult").innerHTML = `
-        <h3>Result:</h3>
-        <p><strong>Gross Salary:</strong> ${Number(data.gross_salary).toLocaleString()} VNĐ</p>
-        <p><strong>Dependents:</strong> ${data.dependents}</p>
-        <p><strong>Net Salary:</strong> <b style="color:green">${Number(data.net_salary).toLocaleString()} VNĐ</b></p>
-      `;
+        document.getElementById("salaryResult").innerHTML = `
+          <h3>Result:</h3>
+          <p><strong>Dependents:</strong> ${data.dependents}</p>
+          <p><strong>Net Salary:</strong> <b style="color:green">${Number(data.net_salary).toLocaleString()} VNĐ</b></p>
+        `;
+
     });
 
     // POST API - upload Excel

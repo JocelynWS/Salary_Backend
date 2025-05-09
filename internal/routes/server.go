@@ -16,8 +16,8 @@ func InitServer() {
 
 	// API GET
 	// Load giao diện HTML từ file
-	r.LoadHTMLFiles("/home/jocelyn/salary_api_ver1/frontend/index.html")
-	r.Static("/static", "./frontend") // Nếu sau này có thêm file CSS/JS
+	r.LoadHTMLFiles("/home/jocelyn/salary_api_ver1/static/index.html")
+	r.Static("/static", "./static") // Nếu sau này có thêm file CSS/JS
 
 	// Giao diện người dùng
 	r.GET("/", func(c *gin.Context) {
