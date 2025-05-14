@@ -2,7 +2,8 @@
 
 This application provides a simple API to convert Gross salary to Net salary based on the number of dependents. It includes two main endpoints:
 
-* **GET /:** Calculates Net salary from Gross salary and the number of dependents passed via query parameters.
+* **GET /:** Display user interface 
+* **POST /calculate:** Calculates Net salary from Gross salary and the number of dependents passed via query parameters.
 * **POST /upload:** Calculates Net salary for multiple individuals from an uploaded Excel file.
 
 ## Requirements
@@ -30,23 +31,14 @@ This application provides a simple API to convert Gross salary to Net salary bas
 
 ## API Usage
 
-### 1. Calculate Net Salary (GET API)
+### 1. Calculate Net Salary (API POST)
 
-* **Endpoint:** `/`
-* **Method:** `GET`
-* **Parameters (query parameters):**
+* **Endpoint:** `/calculate`
+* **Method:** `POST`
+* **Body (form-data):** 
     * `gross`: The Gross salary amount (required).
     * `dependents`: The number of dependents (required, can be 0).
-* **Example:**
-    `http://localhost:8081/?gross=70000000&dependents=0`
-* **Response (JSON):**
-    ```json
-    {
-        "gross_salary": 70000000,
-        "dependents": 0,
-        "net_salary": 52987500
-    }
-    ```
+
 
 ### 2. Calculate Net Salary from File (API POST)
 
