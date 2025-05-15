@@ -149,7 +149,7 @@ docker run -d -p 8081:8081 --name salary_backend jocelyn33/salary-api:latest
 
 Render will build and deploy your app.
 
-## Option 2: Docker Deployment
+**Option 2: Docker Deployment**
 
 - Ensure your Docker image is pushed to Docker Hub
 
