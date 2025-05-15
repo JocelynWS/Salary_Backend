@@ -63,13 +63,13 @@ git clone https://github.com/JocelynWS/Salary_Backend
 cd Salary_Backend
 ```
 
-## 2. Download Dependencies
+### 2. Download Dependencies
 
 ```bash
 go mod tidy
 go mod download
 ```
-## 3. Run the Backend Server
+### 3. Run the Backend Server
 
 ```bash
 go run cmd/main.go
@@ -78,7 +78,7 @@ The server will be available at: http://localhost:8081
 
 ## 🔌 API Usage (use Postman to test)
 
-1. **Calculate Net Salary (Single Entry)**  
+**1. Calculate Net Salary (Single Entry)**  
 **Endpoint:** `/calculate`  
 
 **Method:** POST  
@@ -87,7 +87,7 @@ The server will be available at: http://localhost:8081
 - `gross`: Gross salary (required)  
 - `dependents`: Number of dependents (required)  
 
-2. **Calculate Net Salary from Excel File**  
+**2. Calculate Net Salary from Excel File**  
 **Endpoint:** `/upload`  
 
 **Method:** POST  
