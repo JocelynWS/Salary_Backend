@@ -12,19 +12,16 @@ import (
 
 func InitServer() {
 	r := gin.Default()
-	//r.StaticFile("/frontend", "../static/index.html")
 
-	// API GET
-	// Load giao diện HTML từ file
 	r.LoadHTMLFiles("/home/jocelyn/salary_api_ver1/static/index.html")
-	r.Static("/static", "./static") // Nếu sau này có thêm file CSS/JS
+	r.Static("/static", "./static") 
 
-	// Giao diện người dùng
+	
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	// POST /calculate: Tính lương từ form tay
+
 	r.POST("/calculate", func(c *gin.Context) {
 		var req struct {
 			GrossSalary float64 `json:"gross"`

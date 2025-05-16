@@ -9,14 +9,13 @@ COPY . .
 
 RUN go build -o salary-api ./cmd
 
-# --- Runtime image ---
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m appuser
 
-# ⚠️ Tạo đúng đường dẫn mà code yêu cầu
+
 RUN mkdir -p /home/jocelyn/salary_api_ver1/static
 
 WORKDIR /home/appuser

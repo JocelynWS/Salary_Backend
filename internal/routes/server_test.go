@@ -80,7 +80,7 @@ func TestUploadAPI(t *testing.T) {
 	writer := multipart.NewWriter(&buf)
 	part, err := writer.CreateFormFile("file", file.Name())
 	assert.NoError(t, err)
-	part.Write([]byte("dummy content")) // vì không cần xử lý thực
+	part.Write([]byte("dummy content")) 
 
 	writer.Close()
 
